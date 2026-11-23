@@ -1,0 +1,44 @@
+baseURL = 'https://uske2.github.io/'
+locale = 'ja-jp'
+defaultContentLanguage = 'ja'
+title = 'うほうほうきうきクラブ'
+theme = 'PaperMod'
+
+# 日本語の文字数で要約・読了時間を計算する
+hasCJKLanguage = true
+
+# 記事のURL：/posts/<slug>/
+[permalinks]
+  posts = '/posts/:slug/'
+
+# 分類：categories と tags
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+[params]
+  description = 'for your refecence'
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  defaultTheme = 'auto'
+
+[menus]
+  [[menus.main]]
+    name = '記事'
+    pageRef = '/posts'
+    weight = 10
+  [[menus.main]]
+    name = 'カテゴリー'
+    pageRef = '/categories'
+    weight = 20
+  [[menus.main]]
+    name = 'タグ'
+    pageRef = '/tags'
+    weight = 30
+
+# Obsidianで書いたMarkdown内のHTMLをそのまま出せるようにする
+[markup.goldmark.renderer]
+  unsafe = true

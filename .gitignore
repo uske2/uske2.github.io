@@ -1,0 +1,4 @@
+# Hugoが生成するファイル（GitHub Actionsで毎回作り直す）
+/public/
+/resources/_gen/
+.hugo_build.lock
