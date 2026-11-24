@@ -17,13 +17,17 @@ hasCJKLanguage = true
   tag = 'tags'
 
 [params]
-  description = 'for your refecence'
+  description = 'うほうほ、うきうきする記録'
   ShowReadingTime = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
   ShowToc = true
   defaultTheme = 'auto'
+
+[params.homeInfoParams]
+  Title = 'うほうほ、うきうきする毎日へ！！'
+  Content = '<strong style="font-size: 1.2em;">動く！読む！作る！学ぶ！積み重ねる！</strong><br>「トレーニング」「読書」「技術」「勉強」「ライフログ」の5つのジャングルで、今日もうほうほ活動中です🍌'
 
 [menus]
   [[menus.main]]
