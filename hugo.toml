@@ -26,22 +26,27 @@ hasCJKLanguage = true
   defaultTheme = 'auto'
 
 [params.homeInfoParams]
-  Title = 'うほうほ、うきうきする毎日へ！！'
+  Title = 'うほうほ、うきうきする毎日へ🦍'
   Content = '<strong style="font-size: 1.2em;">動く！読む！作る！学ぶ！積み重ねる！</strong><br>「トレーニング」「読書」「技術」「勉強」「ライフログ」の5つのジャングルで、今日もうほうほ活動中です🍌'
 
+# 右上のメニュー：英語表記で統一（04_Skill/Obsidian_ブログ公開ルール.md 第7章）
 [menus]
   [[menus.main]]
-    name = '記事'
+    name = 'Posts'
     pageRef = '/posts'
     weight = 10
   [[menus.main]]
-    name = 'カテゴリー'
+    name = 'Categories'
     pageRef = '/categories'
     weight = 20
   [[menus.main]]
-    name = 'タグ'
+    name = 'Tags'
     pageRef = '/tags'
     weight = 30
+  [[menus.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 40
 
 # Obsidianで書いたMarkdown内のHTMLをそのまま出せるようにする
 [markup.goldmark.renderer]
