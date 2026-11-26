@@ -5,3 +5,4 @@
 
 # 手元のパソコンの場所（個人情報を含むためGitHubに送らない）
 /scripts/publish-path.txt
+/scripts/private-words.txt
