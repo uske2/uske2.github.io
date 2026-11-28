@@ -7,66 +7,78 @@ ShowReadingTime: false
 ShowPostNavLinks: false
 ShowBreadCrumbs: false
 ---
-<!--
-  固定ページ「About」。文案はObsidianの 07_Projects/001_ブログ移行/作業メモ.md の「Aboutの文案」
-  ルール：04_Skill/Obsidian_ブログ公開ルール.md 第7章
-  動作環境が変わったら、このページも直して「最終更新」を書き換える
--->
 
-<h2>うほうほうきうきクラブとは</h2>
+## うほうほうきうきクラブとは
 
-<p>
-  うほうほ、うきうきする毎日の記録を残すブログです。<br>
-  「トレーニング」「読書」「技術」「勉強」「ライフログ」の5つのジャングルで、<br>
-  動いて、読んで、作って、学んで、積み重ねたことを書いています🍌
-</p>
+こんにちは、ゆうすけです。
 
-<h2>書いている人</h2>
+このブログは、ぼくが日々うほうほ動き回り、うきうきしたことを書き残しておく場所です。
 
-<p>ゆうすけ</p>
-<!-- Xのアカウント名が決まったら、上の行をリンクに置き換える：<p>ゆうすけ（<a href="https://x.com/アカウント名">@アカウント名</a>）</p> -->
+書いているのは下記5つのジャンルです。
 
-<h2>このサイトの仕組み</h2>
+- トレーニング：マラソン、トレイルラン、筋トレなど
+- 読書
+- 技術
+- 勉強：資格試験、AtCoderなど
+- ライフログ：おでかけ、映画、家族のことなど
 
-<table>
-  <thead>
-    <tr><th>役割</th><th>使っているもの</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>記事を書く</td><td>Obsidian（Markdownで書く）</td></tr>
-    <tr><td>サイトを作る</td><td>Hugo（Extended 0.170.1）</td></tr>
-    <tr><td>見た目（テーマ）</td><td>PaperMod</td></tr>
-    <tr><td>公開する</td><td>GitHub Pages</td></tr>
-    <tr><td>自動で公開する</td><td>GitHub Actions（GitHubに送ると、自動でサイトを作って公開）</td></tr>
-  </tbody>
-</table>
+小さな一歩を積み重ねることで成長していきたい、そのためには自分を管理するための手掛かりが必要です。
 
-<p>Obsidianで書いた記事を、Hugoでサイトに変換し、GitHubに送ると自動で公開されます。</p>
+記録を残しておけば反省もできるし、今後に活かすこともできる。このブログは未来の自分のために書いています。
 
-<p>Obsidian（記事を書く）→ Hugo（サイトに変換）→ GitHub（送る）→ GitHub Pages（公開）</p>
+偶然にも同じ課題を持っている人や同じ関心を抱いている人に響けばうれしいです。
 
-<p>
-  記事のネタは、日々うほうほ動き回る中で自分で見つけています。<br>
-  それを読みやすい形に整えるのは、相棒のAI「<a href="https://claude.com/claude-code">Claude Code</a>」の担当です🍌<br>
-  サイトの環境構築や、WordPressからの記事の引っ越しも、Claude Codeと一緒に行いました。
-</p>
+## 書いている人
 
-<p>ソースコード：<a href="https://github.com/uske2/uske2.github.io">uske2/uske2.github.io</a></p>
+ゆうすけ
 
-<h2>これまで</h2>
+アラフォーの会社員です。自己肯定感は低く、他人が怖いです。
 
-<p>
-  2019年から、WordPress（レンタルサーバー）でブログを書いていました。<br>
-  2026年11月に、今の仕組みへ引っ越しました。過去の記事も引き継いでいます。
-</p>
+そのあたりの自己理解もこのブログを通して解像度を上げたいと思います。
 
-<h2>クレジット</h2>
+<!-- Xのアカウント名が決まったら、上の「ゆうすけ」をリンクに置き換える：ゆうすけ（[@アカウント名](https://x.com/アカウント名)） -->
 
-<p>このサイトは、次のオープンソースソフトウェアを使って作っています。ありがとうございます。</p>
+## このサイトの仕組み
 
-<ul>
-  <li><a href="https://gohugo.io/">Hugo</a>（Apache License 2.0）</li>
-  <li><a href="https://github.com/adityatelange/hugo-PaperMod">PaperMod</a>（MIT License）</li>
-</ul>
+2026年11月、WordPressから下記の仕組みへ引っ越しました。
 
-<p>最終更新：2026-11-25</p>
+| 役割 | 使っているもの |
+| --- | --- |
+| 記事を書く | Obsidian（Markdownで書く） |
+| サイトを作る | Hugo（Extended 0.170.1） |
+| 見た目（テーマ） | PaperMod |
+| 公開する | GitHub Pages |
+| 自動で公開する | GitHub Actions（GitHubに送ると、自動でサイトを作って公開） |
+
+Obsidian（記事を書く）→ Hugo（サイトに変換）→ GitHub（送る）→ GitHub Pages（公開）
+
+環境構築も過去記事の引っ越しも、AIの[Claude Code](https://claude.com/claude-code)と膝を突き合わせて相談しながら進めました。
+
+正直に言うと、その仕事ぶりがすさまじく、自分で引っ越したという実感はかなり薄いです。
+
+これからは、生活の記録の中から記事のネタをAIに拾ってもらい、文章は自分なりに形を整えて書いていくつもりです。
+
+AIとの付き合い方も、このブログを通して自分なりに確立していきたいと思います。
+
+ソースコード：[uske2/uske2.github.io](https://github.com/uske2/uske2.github.io)
+
+## これまで
+
+2019年から、WordPress（レンタルサーバー）でブログを書いていました。
+
+セブ島への語学留学、AtCoderの振り返り、マラソン大会、資格試験など、過去の記事もそのまま引き継いでいます。
+
+## クレジット
+
+このサイトは、下記のオープンソースソフトウェアを使って作っています。ありがとうございます。
+
+- [Hugo](https://gohugo.io/)（Apache License 2.0）
+- [PaperMod](https://github.com/adityatelange/hugo-PaperMod)（MIT License）
+
+---
+
+定期的に、継続して更新していきます。
+
+今後ともよろしくお願い致します！
+
+最終更新：2026-11-28
