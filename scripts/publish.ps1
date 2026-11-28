@@ -32,7 +32,7 @@ trap {
 }
 
 # ---- 1. コピー用スクリプト ----
-Write-Host "[1/4] コピー用スクリプトを実行します（09_Publish → content/posts・static/images）" -ForegroundColor Cyan
+Write-Host "[1/4] コピー用スクリプトを実行します（09_Publish → content/posts・content直下の固定ページ・static/images）" -ForegroundColor Cyan
 & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'sync-publish.ps1')
 if ($LASTEXITCODE -ne 0) { Stop-Here "コピー用スクリプトでエラーが出たため、ここで止めます。" }
 

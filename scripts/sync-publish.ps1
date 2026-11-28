@@ -2,12 +2,15 @@
   sync-publish.ps1
   Obsidianの 09_Publish の中身を、Hugoのサイトにコピーする。
 
-  - 09_Publish 直下の記事（.md）      → content/posts
-  - 09_Publish/images の画像          → static/images
-  - 記事の中の画像リンクは /images/ファイル名 に書き換える
+  - 09_Publish 直下の記事（.md）        → content/posts
+  - 09_Publish/pages の固定ページ（.md） → content 直下（例：about.md → content/about.md）
+  - 09_Publish/images の画像            → static/images
+  - 記事・固定ページの中の画像リンクは /images/ファイル名 に書き換える
     （Obsidian側の元ファイルは変更しない）
-  - 09_Publish から消した記事・画像は、Hugo側からも消す（09_Publishと同じ状態にそろえる）
-  - 必須プロパティ（title・date・slug）がない記事や、見つからない画像は警告を出す
+  - 09_Publish から消した記事・固定ページ・画像は、Hugo側からも消す（09_Publishと同じ状態にそろえる）
+    ただし 09_Publish/pages のフォルダがないときは、固定ページには何もしない（警告だけ出す）
+  - 必須プロパティがないものや、見つからない画像は警告を出す
+    記事：title・date・slug　固定ページ：title・url
 
   準備（最初の1回だけ）:
     scripts\publish-path.txt に、09_Publish フォルダの場所を1行で書く。
@@ -39,7 +42,9 @@ if (-not $PublishDir) {
 
 $publishDir = $PublishDir
 $siteDir    = $SiteDir
+$contentDir = Join-Path $siteDir 'content'
 $postsDir   = Join-Path $siteDir 'content\posts'
+$pagesSrc   = Join-Path $publishDir 'pages'
 $imagesSrc  = Join-Path $publishDir 'images'
 $imagesDst  = Join-Path $siteDir 'static\images'
 
@@ -63,19 +68,37 @@ Get-ChildItem $imagesDst -File | Where-Object { -not $imageNames.ContainsKey($_.
     Write-Host "削除（画像）: $($_.Name)"
 }
 
-# ---- 記事：09_Publish 直下の .md をコピーし、画像リンクを書き換える ----
+# ---- 記事・固定ページ：.md をコピーし、画像リンクを書き換える ----
+#   記事    ：09_Publish 直下       → content/posts（必須：title・date・slug）
+#   固定ページ：09_Publish/pages 直下 → content 直下（必須：title・url）
+$items = New-Object System.Collections.Generic.List[object]
+foreach ($f in Get-ChildItem $publishDir -File -Filter *.md) {
+    $items.Add([pscustomobject]@{ File = $f; Label = $f.Name; Keys = @('title', 'date', 'slug'); Dest = $postsDir; IsPage = $false })
+}
+$hasPages = Test-Path $pagesSrc
+if ($hasPages) {
+    foreach ($f in Get-ChildItem $pagesSrc -File -Filter *.md) {
+        $items.Add([pscustomobject]@{ File = $f; Label = "pages/$($f.Name)"; Keys = @('title', 'url'); Dest = $contentDir; IsPage = $true })
+    }
+} else {
+    $warnings.Add("09_Publish/pages がありません。固定ページ（About）はコピーも削除もしていません")
+}
+
 $postNames = @{}
-foreach ($md in Get-ChildItem $publishDir -File -Filter *.md) {
-    $text = [System.IO.File]::ReadAllText($md.FullName, [System.Text.Encoding]::UTF8)
+$pageNames = @{}
+foreach ($item in $items) {
+    $md    = $item.File
+    $label = $item.Label
+    $text  = [System.IO.File]::ReadAllText($md.FullName, [System.Text.Encoding]::UTF8)
 
     # 必須プロパティの確認（ファイル先頭の --- で囲まれた部分）
     $fm = [regex]::Match($text, '\A---\r?\n(.*?)\r?\n---', 'Singleline')
     if (-not $fm.Success) {
-        $warnings.Add("$($md.Name): 先頭にプロパティ（---で囲まれた部分）がありません")
+        $warnings.Add("${label}: 先頭にプロパティ（---で囲まれた部分）がありません")
     } else {
-        foreach ($key in 'title', 'date', 'slug') {
+        foreach ($key in $item.Keys) {
             if ($fm.Groups[1].Value -notmatch "(?m)^$key\s*:\s*\S") {
-                $warnings.Add("$($md.Name): 必須プロパティ $key がありません")
+                $warnings.Add("${label}: 必須プロパティ $key がありません")
             }
         }
     }
@@ -87,26 +110,33 @@ foreach ($md in Get-ChildItem $publishDir -File -Filter *.md) {
         if ($target -match '^(https?:)?//') { return $m.Value }   # 外部の画像はそのまま
         $name = Split-Path $target -Leaf
         if (-not $imageNames.ContainsKey([uri]::UnescapeDataString($name))) {
-            $warnings.Add("$($md.Name): 画像 $([uri]::UnescapeDataString($name)) が 09_Publish/images にありません")
+            $warnings.Add("${label}: 画像 $([uri]::UnescapeDataString($name)) が 09_Publish/images にありません")
         }
         "![$($m.Groups[1].Value)](/images/$name)"
     })
 
     if ($text -match '!?\[\[[^\]]+\]\]') {
-        $warnings.Add("$($md.Name): Wikiリンク（[[ ]]）が残っています。公開先ではリンクになりません")
+        $warnings.Add("${label}: Wikiリンク（[[ ]]）が残っています。公開先ではリンクになりません")
     }
 
-    [System.IO.File]::WriteAllText((Join-Path $postsDir $md.Name), $text, $utf8NoBom)
-    $postNames[$md.Name] = $true
-    Write-Host "コピー: $($md.Name)"
+    [System.IO.File]::WriteAllText((Join-Path $item.Dest $md.Name), $text, $utf8NoBom)
+    if ($item.IsPage) { $pageNames[$md.Name] = $true } else { $postNames[$md.Name] = $true }
+    Write-Host "コピー: $label"
 }
 Get-ChildItem $postsDir -File -Filter *.md | Where-Object { -not $postNames.ContainsKey($_.Name) } | ForEach-Object {
     Remove-Item $_.FullName -Force
     Write-Host "削除（記事）: $($_.Name)"
 }
+# 固定ページ：content 直下の .md だけを見る（categories・tags などのフォルダの中は触らない）
+if ($hasPages) {
+    Get-ChildItem $contentDir -File -Filter *.md | Where-Object { -not $pageNames.ContainsKey($_.Name) } | ForEach-Object {
+        Remove-Item $_.FullName -Force
+        Write-Host "削除（固定ページ）: $($_.Name)"
+    }
+}
 
 Write-Host ""
-Write-Host "記事 $($postNames.Count) 件、画像 $($imageNames.Count) 件をコピーしました。"
+Write-Host "記事 $($postNames.Count) 件、固定ページ $($pageNames.Count) 件、画像 $($imageNames.Count) 件をコピーしました。"
 if ($warnings.Count -gt 0) {
     Write-Host ""
     Write-Host "警告 $($warnings.Count) 件:" -ForegroundColor Yellow
